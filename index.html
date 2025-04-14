@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Nota Saya</title>
   <script>
-    const webAppURL = "https://script.google.com/a/macros/valeo.com/s/AKfycbygpDo4oz-4xn33kxAFZwEjLpLAAFCZE4umEyfjMpwktHzdyVbId6W8zxZoXoIfvlrH/exec";
+    const webAppURL = "https://script.google.com/a/macros/valeo.com/s/AKfycbzI6TBBdckYjQiVUM051L8Zy15X8bhYpUyndrDCimae7TbnrCDlKN4f72kkkIuZvtYIJQ/exec";
 
     async function hantarNota(event) {
       event.preventDefault();
@@ -20,21 +20,20 @@
 
       const result = await response.json();
       if (result.status === "success") {
-        input.value = "";
         document.getElementById("paparNota").textContent = "✔️ Nota Disimpan: " + result.nota;
-        loadNota(); // Refresh senarai
+        input.value = "";
+        loadNota();
       }
     }
 
     async function loadNota() {
-      const response = await fetch(webAppURL);
-      const records = await response.json();
+      const res = await fetch(webAppURL);
+      const data = await res.json();
       const list = document.getElementById("senaraiNota");
       list.innerHTML = "";
-
-      records.forEach(item => {
+      data.forEach(item => {
         const li = document.createElement("li");
-        li.textContent = `${item.nota} (🗓️ ${item.tarikh} 🕒 ${item.masa})`;
+        li.textContent = `${item.nota} (📅 ${item.tarikh}, 🕒 ${item.masa})`;
         list.appendChild(li);
       });
     }
@@ -44,15 +43,14 @@
 </head>
 <body>
   <h2>📘 Simpan Nota ke Google Sheets</h2>
-
   <form onsubmit="hantarNota(event)">
-    <input type="text" id="nota" name="nota" placeholder="Tulis nota anda di sini" required>
+    <input type="text" id="nota" name="nota" required placeholder="Tulis nota di sini">
     <button type="submit">Simpan</button>
   </form>
 
   <p id="paparNota"></p>
 
-  <h3>📄 Senarai Nota</h3>
+  <h3>🗂️ Senarai Nota</h3>
   <ul id="senaraiNota"></ul>
 </body>
 </html>
