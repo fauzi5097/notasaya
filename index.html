@@ -2,9 +2,9 @@
 <html lang="ms">
 <head>
   <meta charset="UTF-8">
-  <title>Rekod Reject</title>
+  <title>Borang Rekod Reject</title>
   <script>
-    const webAppURL = "https://script.google.com/a/macros/valeo.com/s/AKfycbzS1UFIRkQnq6E_Dp_a5Jemv7NeyjY7BAvTYWsPw0z_k479GC3htiV8geJ0ZemBs82oOQ/exec";
+    const webAppURL = "https://script.google.com/a/macros/valeo.com/s/AKfycbzPZ5ibjuZTJv8SyUH2dSTNpUBCO6Swve-QwJb3V8p11f9FZPqMH0Ga7tLGaeO88_Bz6Q/exec"; // ganti dengan Web App URL anda
 
     async function hantarData(event) {
       event.preventDefault();
@@ -12,15 +12,23 @@
       const form = new FormData(document.getElementById("rejectForm"));
       const data = new URLSearchParams(form);
 
-      const response = await fetch(webAppURL, {
-        method: "POST",
-        body: data
-      });
+      try {
+        const response = await fetch(webAppURL, {
+          method: "POST",
+          body: data
+        });
 
-      const result = await response.json();
-      if (result.status === "success") {
-        document.getElementById("mesej").textContent = "✅ Rekod berjaya dihantar!";
-        document.getElementById("rejectForm").reset();
+        const result = await response.json();
+
+        if (result.status === "success") {
+          document.getElementById("mesej").textContent = "✅ Rekod berjaya dihantar!";
+          document.getElementById("rejectForm").reset();
+        } else {
+          document.getElementById("mesej").textContent = "❌ Gagal hantar rekod.";
+        }
+      } catch (error) {
+        document.getElementById("mesej").textContent = "❌ Ralat sambungan: " + error;
+        console.error(error);
       }
     }
   </script>
@@ -28,16 +36,28 @@
 <body>
   <h2>📋 Borang Rekod Reject</h2>
   <form id="rejectForm" onsubmit="hantarData(event)">
-    Nama Operator: <input type="text" name="operator" required><br><br>
-    Shift: <select name="shift">
+    Nama Operator:<br>
+    <input type="text" name="operator" required><br><br>
+
+    Shift:<br>
+    <select name="shift">
       <option>Shift 1</option>
       <option>Shift 2</option>
       <option>Shift 3</option>
     </select><br><br>
-    Nama Part: <input type="text" name="part" required><br><br>
-    Jenis Reject: <input type="text" name="jenis" required><br><br>
-    Jumlah (pcs): <input type="number" name="jumlah" required><br><br>
-    Catatan: <textarea name="catatan" rows="2"></textarea><br><br>
+
+    Nama Part:<br>
+    <input type="text" name="part" required><br><br>
+
+    Jenis Reject:<br>
+    <input type="text" name="jenis" required><br><br>
+
+    Jumlah (pcs):<br>
+    <input type="number" name="jumlah" required><br><br>
+
+    Catatan:<br>
+    <textarea name="catatan" rows="2"></textarea><br><br>
+
     <button type="submit">Hantar</button>
   </form>
 
