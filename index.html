@@ -2,23 +2,61 @@
 <html lang="ms">
 <head>
   <meta charset="UTF-8">
-  <title>Laman Nota Saya</title>
+  <title>Nota Saya</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    input, button {
+      padding: 6px;
+      margin-right: 5px;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    .actions {
+      margin-left: 10px;
+    }
+  </style>
 </head>
 <body>
-  <h1>📘 Nota Saya</h1>
-  <input type="text" id="notaInput" placeholder="Tulis nota anda...">
-  <button onclick="tambahNota()">Simpan Nota</button>
+  <h2>📘 Nota Saya</h2>
+
+  <input type="text" id="notaInput" placeholder="Tulis nota anda">
+  <button onclick="tambahNota()">Simpan</button>
+
   <ul id="senaraiNota"></ul>
 
   <script>
     function tambahNota() {
-      const nota = document.getElementById("notaInput").value;
-      if (nota.trim() !== "") {
-        const item = document.createElement("li");
-        item.innerText = nota;
-        document.getElementById("senaraiNota").appendChild(item);
-        document.getElementById("notaInput").value = "";
-      }
+      const notaInput = document.getElementById("notaInput");
+      const nota = notaInput.value.trim();
+      if (nota === "") return;
+
+      const li = document.createElement("li");
+      const span = document.createElement("span");
+      span.textContent = nota;
+      li.appendChild(span);
+
+      const editBtn = document.createElement("button");
+      editBtn.textContent = "Edit";
+      editBtn.className = "actions";
+      editBtn.onclick = () => {
+        const newNota = prompt("Edit nota:", span.textContent);
+        if (newNota !== null) span.textContent = newNota;
+      };
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "Padam";
+      deleteBtn.className = "actions";
+      deleteBtn.onclick = () => li.remove();
+
+      li.appendChild(editBtn);
+      li.appendChild(deleteBtn);
+
+      document.getElementById("senaraiNota").appendChild(li);
+      notaInput.value = "";
     }
   </script>
 </body>
