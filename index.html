@@ -1,66 +1,14 @@
 <!DOCTYPE html>
-<html lang="ms">
-<head>
-  <meta charset="UTF-8">
-  <title>Reject form</title>
-  <script>
-    const webAppURL = "https://script.google.com/macros/s/AKfycbyA_4-K0DiayNIAiktrDvrcrbt4JU7CpiSAcdUfWUW552MxquGElxu3z2NTtOX-aDUK1w/exec"; // ganti dengan Web App URL anda
-
-    async function hantarData(event) {
-      event.preventDefault();
-
-      const form = new FormData(document.getElementById("rejectForm"));
-      const data = new URLSearchParams(form);
-
-      try {
-        const response = await fetch(webAppURL, {
-          method: "POST",
-          body: data
-        });
-
-        const result = await response.json();
-
-        if (result.status === "success") {
-          document.getElementById("mesej").textContent = "✅ Rekod berjaya dihantar!";
-          document.getElementById("rejectForm").reset();
-        } else {
-          document.getElementById("mesej").textContent = "❌ Gagal hantar rekod.";
-        }
-      } catch (error) {
-        document.getElementById("mesej").textContent = "❌ Ralat sambungan: " + error;
-        console.error(error);
-      }
-    }
-  </script>
-</head>
-<body>
-  <h2>📋 Borang Rekod Reject</h2>
-  <form id="rejectForm" onsubmit="hantarData(event)">
-    Nama Operator:<br>
-    <input type="text" name="operator" required><br><br>
-
-    Shift:<br>
-    <select name="shift">
-      <option>Shift 1</option>
-      <option>Shift 2</option>
-      <option>Shift 3</option>
-    </select><br><br>
-
-    Nama Part:<br>
-    <input type="text" name="part" required><br><br>
-
-    Jenis Reject:<br>
-    <input type="text" name="jenis" required><br><br>
-
-    Jumlah (pcs):<br>
-    <input type="number" name="jumlah" required><br><br>
-
-    Catatan:<br>
-    <textarea name="catatan" rows="2"></textarea><br><br>
-
-    <button type="submit">Hantar</button>
-  </form>
-
-  <p id="mesej"></p>
-</body>
+<html>
+  <body>
+    <form action="PASTE_YOUR_WEB_APP_URL_HERE" method="POST">
+      Operator: <input type="text" name="operator"><br>
+      Shift: <input type="text" name="shift"><br>
+      Part: <input type="text" name="part"><br>
+      Jenis Reject: <input type="text" name="jenis"><br>
+      Jumlah: <input type="number" name="jumlah"><br>
+      Catatan: <input type="text" name="catatan"><br>
+      <button type="submit">Submit</button>
+    </form>
+  </body>
 </html>
