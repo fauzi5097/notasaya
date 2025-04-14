@@ -2,55 +2,45 @@
 <html lang="ms">
 <head>
   <meta charset="UTF-8">
-  <title>Nota Saya</title>
+  <title>Rekod Reject</title>
   <script>
     const webAppURL = "https://script.google.com/a/macros/valeo.com/s/AKfycbyS5oBywaOpl8Qmb-iXdizotmk0tAwZqzPfD5usMFwmPmGNUTPa8IqJ4r6ti38FAvw5Sw/exec";
 
-    async function hantarNota(event) {
+    async function hantarData(event) {
       event.preventDefault();
-      const input = document.getElementById("nota");
-      const nota = input.value.trim();
-      if (nota === "") return;
+
+      const form = new FormData(document.getElementById("rejectForm"));
+      const data = new URLSearchParams(form);
 
       const response = await fetch(webAppURL, {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `nota=${encodeURIComponent(nota)}`
+        body: data
       });
 
       const result = await response.json();
       if (result.status === "success") {
-        document.getElementById("paparNota").textContent = "✔️ Nota Disimpan: " + result.nota;
-        input.value = "";
-        loadNota();
+        document.getElementById("mesej").textContent = "✅ Rekod berjaya dihantar!";
+        document.getElementById("rejectForm").reset();
       }
     }
-
-    async function loadNota() {
-      const res = await fetch(webAppURL);
-      const data = await res.json();
-      const list = document.getElementById("senaraiNota");
-      list.innerHTML = "";
-      data.forEach(item => {
-        const li = document.createElement("li");
-        li.textContent = `${item.nota} (📅 ${item.tarikh}, 🕒 ${item.masa})`;
-        list.appendChild(li);
-      });
-    }
-
-    window.onload = loadNota;
   </script>
 </head>
 <body>
-  <h2>📘 Simpan Nota ke Google Sheets</h2>
-  <form onsubmit="hantarNota(event)">
-    <input type="text" id="nota" name="nota" required placeholder="Tulis nota di sini">
-    <button type="submit">Simpan</button>
+  <h2>📋 Borang Rekod Reject</h2>
+  <form id="rejectForm" onsubmit="hantarData(event)">
+    Nama Operator: <input type="text" name="operator" required><br><br>
+    Shift: <select name="shift">
+      <option>Shift 1</option>
+      <option>Shift 2</option>
+      <option>Shift 3</option>
+    </select><br><br>
+    Nama Part: <input type="text" name="part" required><br><br>
+    Jenis Reject: <input type="text" name="jenis" required><br><br>
+    Jumlah (pcs): <input type="number" name="jumlah" required><br><br>
+    Catatan: <textarea name="catatan" rows="2"></textarea><br><br>
+    <button type="submit">Hantar</button>
   </form>
 
-  <p id="paparNota"></p>
-
-  <h3>🗂️ Senarai Nota</h3>
-  <ul id="senaraiNota"></ul>
+  <p id="mesej"></p>
 </body>
 </html>
