@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <title>Laman Nota Saya</title>
+</head>
+<body>
+  <h1>📘 Nota Saya</h1>
+  <input type="text" id="notaInput" placeholder="Tulis nota anda...">
+  <button onclick="tambahNota()">Simpan Nota</button>
+  <ul id="senaraiNota"></ul>
+
+  <script>
+    function tambahNota() {
+      const nota = document.getElementById("notaInput").value;
+      if (nota.trim() !== "") {
+        const item = document.createElement("li");
+        item.innerText = nota;
+        document.getElementById("senaraiNota").appendChild(item);
+        document.getElementById("notaInput").value = "";
+      }
+    }
+  </script>
+</body>
+</html>
