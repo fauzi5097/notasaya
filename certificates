@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <title>Sijil – Muhamad Fauzi</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px auto; max-width: 800px; line-height: 1.6; color: #333; }
+    h1 { color: #2c3e50; border-bottom: 2px solid #ccc; }
+    ul { padding-left: 20px; }
+    a { color: #2c3e50; text-decoration: none; }
+    .back { margin-top: 20px; display: inline-block; }
+  </style>
+</head>
+<body>
+
+  <h1>Sijil – Muhamad Fauzi</h1>
+
+  <ul>
+    <li>📜 <strong>Python Certification – Junior Level</strong><br>
+      <em>Issued by: Python Malaysia | Year: 2025</em></li>
+
+    <li>📜 <strong>Lean Six Sigma Yellow Belt</strong><br>
+      <em>Issued by: Valeo Internal Training | Year: 2023</em></li>
+
+    <li>📜 <strong>8D Problem Solving</strong><br>
+      <em>Issued by: Armstrong Training Program | Year: 2022</em></li>
+  </ul>
+
+  <a class="back" href="index.html">← Kembali ke Resume</a>
+
+</body>
+</html>
