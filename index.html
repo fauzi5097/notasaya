@@ -4,13 +4,15 @@
   <meta charset="UTF-8">
   <title>Nota Saya</title>
   <script>
+    const webAppURL = "https://script.google.com/a/macros/valeo.com/s/AKfycbygpDo4oz-4xn33kxAFZwEjLpLAAFCZE4umEyfjMpwktHzdyVbId6W8zxZoXoIfvlrH/exec";
+
     async function hantarNota(event) {
       event.preventDefault();
       const input = document.getElementById("nota");
       const nota = input.value.trim();
       if (nota === "") return;
 
-      const response = await fetch("https://script.google.com/a/macros/valeo.com/s/AKfycbygpDo4oz-4xn33kxAFZwEjLpLAAFCZE4umEyfjMpwktHzdyVbId6W8zxZoXoIfvlrH/exec", {
+      const response = await fetch(webAppURL, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: `nota=${encodeURIComponent(nota)}`
@@ -18,10 +20,26 @@
 
       const result = await response.json();
       if (result.status === "success") {
-        document.getElementById("paparNota").textContent = "✔️ Nota Disimpan: " + result.nota;
         input.value = "";
+        document.getElementById("paparNota").textContent = "✔️ Nota Disimpan: " + result.nota;
+        loadNota(); // Refresh senarai
       }
     }
+
+    async function loadNota() {
+      const response = await fetch(webAppURL);
+      const records = await response.json();
+      const list = document.getElementById("senaraiNota");
+      list.innerHTML = "";
+
+      records.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.nota} (🗓️ ${item.tarikh} 🕒 ${item.masa})`;
+        list.appendChild(li);
+      });
+    }
+
+    window.onload = loadNota;
   </script>
 </head>
 <body>
@@ -33,5 +51,8 @@
   </form>
 
   <p id="paparNota"></p>
+
+  <h3>📄 Senarai Nota</h3>
+  <ul id="senaraiNota"></ul>
 </body>
 </html>
